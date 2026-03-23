@@ -1,84 +1,47 @@
-const personGenerator = { 
+import { surnameJson, firstNameMaleJson, firstNameFemaleJson } from './data.js';
 
-    //ФАМИЛИИ МУЖСКИЕ
-    surnameJson: `{  
-        "count": 33,
-        "list": {
-            "id_1": "Белый",
-            "id_2": "Волков",
-            "id_3": "Турчинский",
-            "id_4": "Достоевский",
-            "id_5": "Трубецкой",
-            "id_6": "Михалков",
-            "id_7": "Дюжев",
-            "id_8": "Царев",
-            "id_9": "Никитин",
-            "id_10": "Соловьев",
-            "id_11": "Должанский",
-            "id_12": "Киркоров",
-            "id_13": "Смирнов",
-            "id_14": "Гагарин",
-            "id_15": "Бельский",
-            "id_16": "Коровин",
-            "id_17": "Кологривый",
-            "id_18": "Шевченко",
-            "id_19": "Коваленко",
-            "id_20": "Гоголь",
-            "id_21": "Лебедь",
-            "id_22": "Смит",
-            "id_23": "Уильямс",
-            "id_24": "Браун",
-            "id_25": "Гарсия",
-            "id_26": "Тейлор",
-            "id_27": "Конти",
-            "id_28": "Галло",
-            "id_29": "Рыбаков",
-            "id_30": "Травкин",
-            "id_31": "Златовласов",
-            "id_32": "Андре",
-            "id_33": "Рыкалин",
-        }
-    }`,
+const personGenerator = {
+    
+    surnameJson: surnameJson,
+    firstNameMaleJson: firstNameMaleJson,
+    firstNameFemaleJson: firstNameFemaleJson,
 
-    //ИМЕНА МУЖСКИЕ
-    firstNameMaleJson: `{
-        "count": 24,
-        "list": {     
-            "id_1": "Геральт",
-            "id_2": "Роберт",
-            "id_3": "Всеволод",
-            "id_4": "Глеб",
-            "id_5": "Аркадий",
-            "id_6": "Никита",
-            "id_7": "Дмитрий",
-            "id_8": "Инджрих",
-            "id_9": "Шерлок",
-            "id_10": "Николай",
-            "id_11": "Александр",
-            "id_12": "Ричард",
-            "id_13": "Игорь",
-            "id_14": "Вадим",
-            "id_15": "Лев",
-            "id_16": "Константин",
-            "id_17": "Арнольд",
-            "id_18": "Руслан",
-            "id_19": "Леопольд",
-            "id_20": "Илья",
-            "id_21": "Валерий",
-            "id_22": "Джон",
-            "id_23": "Руперт",
-            "id_24": "Матвей",
-        }
-    }`,
 
+    GENDER_MALE: 'Мужчина',
+    GENDER_FEMALE: 'Женщина',
+
+    //метод генерации
+    randomIntNumber: function (max) {
+     return Math.floor(Math.random() * max )+ 1;
+    },
+
+    //метод генерации гендера
+    randomGender : function() { 
+        const gender = Math.floor((Math.random() * 2 + 1));
+        return (gender == 1) ?  this.GENDER_MALE : this.GENDER_FEMALE;
+    },
+
+    randomValue: function (obj) {
+        const max = obj.count;
+        const prop = `id_${this.randomIntNumber(max)}`;
+        return obj.list[prop];
+    },
+
+    
     //АЛГОРИТМ ГЕНЕРАЦИИ ОТЧЕСТВА
     GrandName : function GrandName(name) {
    
-        let rule = ['бвгдзклмнпрстфх', 'жшчщцуаяэиыёоую', 'ь', 'ауыо', 'ий', 'и', 'е', 'ей'];
+        let rule = ['бвгдзклмнпрстфх', 'жшчщцуаяэиыёоую', 'ь', 'ауыо', 'ий', 'и', 'е', 'ей', 'ай'];
         let grandName = '';
         let sl;
         let arrNames = ["Никита", "Савва", "Илья", "Эмиль", "Добрыня"];
         let nameRule = ['Дмитрий', 'Сергий', 'Георгий', 'Валерий', 'Макарий', 'Евстахий', 'Аверкий', 'Дионисий', 'Иларий', 'Алексий'];
+        let nameRuleSecond = 'Лев';
+
+        if (name === 'Лев') {
+            name = 'Львович';
+            return name;
+        };
 
    
         for (let i = 0; i < nameRule.length; i++) {
@@ -90,7 +53,7 @@ const personGenerator = {
                 }
         };
   
-        if (name == arrNames[0] || name === arrNames[1] || name === arrNames[2] || name === arrNames[4]) {
+        if (name === arrNames[0] || name === arrNames[1] || name === arrNames[2] || name === arrNames[4]) {
             grandName += name;
             sl = grandName.slice(0, -1);
             return sl + 'ич'
@@ -139,88 +102,92 @@ const personGenerator = {
             grandName += name;
             return grandName + 'вич';
         };
+        
+        if(rule[8].includes(name.slice(-1))) {
+          grandName = name.slice(0, -1);
+          grandName += 'евич';
+          return grandName
+        };
   
 },
 
-    GrandNameFemaleJson: `{
-        "count": 18,
-        "list": {     
-            "id_1": "Вадимовна",
-            "id_2": "Адовна",
-            "id_3": "Руслановна",
-            "id_4": "Хабибовна",
-            "id_5": "Геральтовна",
-            "id_6": "Дмитриевна",
-            "id_7": "Васильевна",
-            "id_8": "Михайловна",
-            "id_9": "Хищниковна",
-            "id_10": "Сама не в курсе чья дочь",
-            "id_11": "Андреевна",
-            "id_12": "Леоновна",
-            "id_13": "Сэмуэльевна",
-            "id_14": "Марковна",
-            "id_15": "Артуровна",
-            "id_16": "Вуншпуншовна",
-            "id_17": "Витальевна",
-            "id_18": "Мамина дочь"
+    //АЛГОРИТМ ГЕНЕРАЦИИ ОТЧЕСТВА ЖЕН
+    FemGrandName : function FemGrandName(grandName) {
+  
+        if (grandName === "Ильич" || grandName === "Фомич" || grandName === "Кузьмич" || grandName === "Патрикеич") {
+        grandName = grandName.slice(0, -2);
+        grandName += "инична";
+        return grandName;
+        };
+ 
+        let end = grandName.slice(-4);
+        let base = grandName.slice(0, -4); 
+
+
+        switch (end) {
+    
+            case 'ович':
+            end = 'овна';
+            grandName = base += end;
+            break;
+    
+            case 'евич':
+            end = 'евна';
+            grandName = base += end;
+            break;
+        };
+  
+        if (end.slice(-2) === "ич") {
+        grandName += 'на';
+        };
+        return grandName;
+
+},
+
+    //АЛГОРИТМ ГЕНЕРАЦИИ ФАМИЛИИ ЖЕН
+    familyFem : function familyFem(surName) {
+        let rule = ["ин", "ов", "ев"];
+        let secondRule = ["ой", "ий", "ый"];
+  
+        for(let i = 0; i < rule.length; i++) {
+            if (surName.slice(-2) === rule[i]) {
+                surName += 'a';
+            }
+            console.log(i);
         }
-    }`,
-
-        //ИМЕНА ЖЕНСКИЕ
-        firstNameFemaleJson: `{
-        "count": 21,
-        "list": {
-            "id_1": "Мэри",
-            "id_2": "Лариса",
-            "id_3": "Элли",
-            "id_4": "Морриган",
-            "id_5": "Фелиция",
-            "id_6": "Наталья",
-            "id_7": "Ирина",
-            "id_8": "Цирилла",
-            "id_9": "Лара",
-            "id_10": "Клементина",
-            "id_11": "Байонетта",
-            "id_12": "Китана",
-            "id_13": "Джейд",
-            "id_14": "Соня",
-            "id_15": "Рамильда",
-            "id_16": "Гермиона",
-            "id_17": "Джинни",
-            "id_18": "Сильвана",
-            "id_19": "Падме",
-            "id_20": "Мэй",
-            "id_21": "Памелла"
+  
+        for(let i = 0; i < secondRule.length; i++) {
+            if(surName.slice(-2) === secondRule[i]) {
+                surName = surName.slice(0, -2);
+                surName += 'ая';
+            }
         }
-    }`,
+  
+    return surName;
+},
 
-    randomStory : `{
-        "count": 100,
-        "list": {
-      "id_1": "Волшебник-аллергик..."
-        } 
-    }`,
+    profession : function profession(run) {
+    const manProf = ["Инженер", "Строитель", "Механик", "Электрик", "Слесарь", "Плотник", "Маляр", "Крановщик"];
+    const womanProf = ["учитель", "воспитатель", "няня", "швея", "пекарь", "акушер", "медсестра"];
+    const generalProf = ["Врач", "Программист", "Продавец", 
+    "Менеджер", "Юрист", "Бухгалтер", "Дизайнер", "Переводчик", "Журналист", "Писатель",
+    "Художник", "Музыкант", "Артист", "Режиссёр", "Оператор",]
+  
+    let flag;
 
-    randomStoryFemale : `{
-        "count": 100,
-        "list": {
-      "id_1": "Волшебница-глитчер..."
-        }   
-    }`,
+    let random = this.randomIntNumber(2);
+    random === 2 ? flag = true : flag = false; 
 
-    randomWeapon: `{
-    "count": 100,
-    "list": {
-      "id_1": "Резиновая курица..."
-    }
-    }`,
-
-    randomArmor: `{
-    "count": 100,
-    "list": {
-      "id_1": "Картонная коробка..."
-    }
-  }`,
+        if (flag) {
+            return generalProf[this.randomIntNumber(generalProf.length - 1)]; 
+        } else {
+        if (run === 'Мужчина') {
+            return manProf[this.randomIntNumber(manProf.length - 1)];
+        } else {
+            return womanProf[this.randomIntNumber(womanProf.length - 1)];  
+            }
+        }
+},
 
     date : function howOldAreU(run) {
         let day;
@@ -285,50 +252,42 @@ const personGenerator = {
   
     },
 
-    GENDER_MALE: 'Мужчина',
-    GENDER_FEMALE: 'Женщина',
-
-    randomIntNumber: (max) => Math.floor(Math.random() * max )+ 1,
-
-    randomValue: function (json) {
-        const obj = JSON.parse(json);
-        const max = obj.count;
-        const prop = `id_${this.randomIntNumber(max)}`;
-        return obj.list[prop];
-    },
-
+    //Здесь все функции собираются в единое целое и выходные данные - массив.
     myRandom: function() {
-        let wepon = this.randomValue(this.randomWeapon);
-        let armor = this.randomValue(this.randomArmor);
+        //let wepon = this.randomValue(this.randomWeapon);
+        //let armor = this.randomValue(this.randomArmor);
         let run = this.randomGender();
+        let whereUworkKid = this.profession(run);
+        let grandName = this.GrandName(this.randomValue(this.firstNameMaleJson)); //отчество мужское
         let howOld = this.date(run);
+        let surName = this.randomValue(surnameJson);
+        let male;
         
         if (run === this.GENDER_MALE) {
-            let male = this.randomValue(this.firstNameMaleJson);
-            let grandName = this.GrandName(male);
-            return [male, run, "", howOld, grandName, "", wepon, armor];
+            male = this.randomValue(this.firstNameMaleJson);
         } else { 
-            let female = this.randomValue(this.firstNameFemaleJson);
-            return [female, run, "", howOld, "", "", wepon, armor];
+             male = this.randomValue(this.firstNameFemaleJson);
+             grandName = this.FemGrandName(grandName);
+             surName = this.familyFem(this.randomValue(surnameJson));
         }
+        return [male, run, howOld, grandName, surName, whereUworkKid];
     },
 
-    randomGender : function() { 
-        const gender = Math.floor((Math.random() * 2 + 1));
-        return (gender == 1) ?  this.GENDER_MALE : this.GENDER_FEMALE;
-    },
-
+    //здесь массив который мы получили из функции myRandom мы распаковываем и передаем обработчику событий
     getPerson: function () {
         this.person = {};
         const genName = this.myRandom();
         this.person.firstName = genName[0];
         this.person.gender = genName[1];
-        this.person.surName = genName[2];
-        this.person.date = genName[3];
+        this.person.date = genName[2];
+        this.person.surName = genName[3];
         this.person.gname = genName[4];
-        this.person.story = genName[5];
-        this.person.wepon = genName[6];
-        this.person.armor = genName[7];
+        this.person.work = genName[5];
+      //  this.person.story = genName[5];
+      //  this.person.wepon = genName[6];
+       // this.person.armor = genName[7];
         return this.person;
     }
 };
+
+export default personGenerator;

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Генератор случайных пользователей</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -19,24 +20,16 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h3 class="card-title"><span id="surnameOutput">Генерация фамилии</span></h3>
-                            <h4><span id="firstNameOutput">Генерация имени</span></h4>
+                            <h3><span id="firstNameOutput">Генерация имени</span></h3>
+                            <h4 class="card-title"><span id="surnameOutput">Генерация фамилии</span></h4>
                             <h5><span id="secondNameOutput">Генерация отчества</span></h5>
                             <p>
-                                <span id="genderOutput"></span>
-                                <span>, </span>
+                                <span id="genderOutput">пол</span>
+                                <span></span>
                                 <span id="birthYearOutput">Генерация года рождения</span>
+                                <h6><span id="work">Генерация профессии</span></h6>
                                 <button id="genereration">Сгенерировать</button>
-                                <button id="clear">Стереть с лица земли</button>
-                            </p>
-                            <p>Биография персонажа:
-                                <span id="story">генератор истории</span>
-                            </p>
-                            <p>Оружие: 
-                                <span id ="wepon">генератор оружия</span>
-                            </p>
-                            <p>Броня:
-                                <span id="armor">генератор брони</span>
+                                <button id="clear">Сброс</button>
                             </p>
                         </div>
                     </div>
@@ -45,7 +38,7 @@
         </div>
     </div>
 </div>
-<script src="personGenerator.js"></script>
-<script src="init.js"></script>
+<script type="module" src="personGenerator.js"></script>
+<script type="module" src="init.js"></script>
 </body>
 </html>
